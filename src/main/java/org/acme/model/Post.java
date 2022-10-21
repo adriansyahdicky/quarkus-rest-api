@@ -30,5 +30,5 @@ public class Post extends PanacheEntityBase  {
     @JoinTable(name = "post_tags",
             joinColumns = { @JoinColumn(name = "posts_id") },
             inverseJoinColumns = { @JoinColumn(name = "tags_id") })
-    private Set<Tag> roles = new HashSet<>();
+    private Set<Tag> tags = new HashSet<>();
 }

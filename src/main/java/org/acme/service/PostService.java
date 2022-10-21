@@ -39,7 +39,7 @@ public class PostService {
 
         for (String tags : postDto.getTags()){
             Tag tag = tagsRepository.findByLabel(tags);
-            post.getRoles().add(tag);
+            post.getTags().add(tag);
         }
         PanacheEntityBase.persist(post);
         return postDto;
@@ -61,7 +61,7 @@ public class PostService {
 
         for (String tags : postDto.getTags()){
             Tag tag = tagsRepository.findByLabel(tags);
-            post.getRoles().add(tag);
+            post.getTags().add(tag);
         }
         PanacheEntityBase.persist(post);
         return postDto;
