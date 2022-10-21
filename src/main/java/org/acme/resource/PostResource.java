@@ -4,9 +4,13 @@ import org.acme.dto.PostDto;
 import org.acme.service.PostService;
 
 import javax.inject.Inject;
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import javax.validation.Validator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Set;
 
 @Path("/post")
 @Produces(MediaType.APPLICATION_JSON)
@@ -16,6 +20,9 @@ public class PostResource {
     @Inject
     private PostService postService;
 
+    @Inject
+    Validator validator;
+
     @GET
     public Response getAll(){
         return Response.ok(postService.getAll()).build();
@@ -23,7 +30,13 @@ public class PostResource {
 
     @POST
     @Path("/save")
-    public Response save(PostDto postDto) {
+    public Response save(@Valid PostDto postDto) {
+        Set<ConstraintViolation<PostDto>> validate = validator.validate(postDto);
+
+        if(!validate.isEmpty()){
+            validate.stream().map(ConstraintViolation::getMessage);
+        }
+
         return Response.ok(postService.createPost(postDto)).build();
     }
 
