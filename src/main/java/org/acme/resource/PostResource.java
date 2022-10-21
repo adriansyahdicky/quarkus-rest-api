@@ -21,7 +21,7 @@ public class PostResource {
     private PostService postService;
 
     @Inject
-    Validator validator;
+    private Validator validator;
 
     @GET
     public Response getAll(){
@@ -32,11 +32,9 @@ public class PostResource {
     @Path("/save")
     public Response save(@Valid PostDto postDto) {
         Set<ConstraintViolation<PostDto>> validate = validator.validate(postDto);
-
         if(!validate.isEmpty()){
             validate.stream().map(ConstraintViolation::getMessage);
         }
-
         return Response.ok(postService.createPost(postDto)).build();
     }
 
